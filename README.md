@@ -3,6 +3,9 @@
 > **⚠️ DISCLAIMER: Tested Configuration**  
 > This guide is specifically tested on the **Cosmic Byte Blitz** controller. While the strategies described here are generally applicable to other generic "Shanwan" chipset controllers that fail to enumerate correctly, your mileage may vary. Proceed with caution when applying system-level changes.
 
+## Video Showcase of Cosmic Byte Blitz with Vibration on Fedora 43
+
+
 ## Introduction
 This repository documents the primary strategy for resolving the common issue where the Cosmic Byte Blitz controller connects as a generic device without vibration support on Linux. The goal is to correct the USB enumeration process to ensure the device is detected in a mode that supports vibration.
 

@@ -15,7 +15,7 @@ This repository documents the primary strategy for resolving the common issue wh
 
 ---
 
-## Strategy : The "Kernel Param" Fix (Recommended)
+## Strategy : The "Kernel Param" Fix
 **Effect / Outcome:** The controller will be detected as a **Nintendo Switch Pro Controller**. While this enables vibration, the button layout (A/B and X/Y) will be **inverted** relative to the Xbox physical layout. This guide includes manual steps to fix this mapping.
 
 This method modifies the kernel boot arguments to use an older, more lenient USB enumeration scheme (`usbcore.old_scheme_first=1`). This allows the controller's firmware enough time to handshake correctly without timing out and defaulting to a generic Android mode.

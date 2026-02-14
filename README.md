@@ -6,6 +6,10 @@
 ## Video Showcase of Cosmic Byte Blitz with Vibration on Fedora 43
 
 
+https://github.com/user-attachments/assets/106812f4-dcfc-470d-be35-bec9d5bd4ec3
+
+
+
 ## Introduction
 This repository documents the primary strategy for resolving the common issue where the Cosmic Byte Blitz controller connects as a generic device without vibration support on Linux. The goal is to correct the USB enumeration process to ensure the device is detected in a mode that supports vibration.
 

@@ -8,7 +8,7 @@ This repository documents the primary strategy for resolving the common issue wh
 
 ---
 
-## Strategy 1: The "Kernel Param" Fix (Recommended)
+## Strategy : The "Kernel Param" Fix (Recommended)
 **Effect / Outcome:** The controller will be detected as a **Nintendo Switch Pro Controller**. While this enables vibration, the button layout (A/B and X/Y) will be **inverted** relative to the Xbox physical layout. This guide includes manual steps to fix this mapping.
 
 This method modifies the kernel boot arguments to use an older, more lenient USB enumeration scheme (`usbcore.old_scheme_first=1`). This allows the controller's firmware enough time to handshake correctly without timing out and defaulting to a generic Android mode.
@@ -95,25 +95,34 @@ Alternatively, if you are only using Steam, you can enable "Nintendo Switch Supp
 ## Additional Fixes: Browser Compatibility (Chrome/Edge)
 **Symptom:** The controller works in Steam/Games but is **not detected** by Google Chrome, Microsoft Edge, or other web-based gamepad testers.
 
-**Cause:** When using **Strategy 1** (Kernel Param), the controller identifies as a Nintendo Switch Pro Controller. Chrome attempts to initialize this specific device using raw HID commands. On Fedora and many other distros, standard users are blocked from accessing `/dev/hidraw*` devices for security reasons. Chrome fails the handshake and ignores the controller.
+**Cause:** Modern browsers (like Chrome) attempt to initialize gamepads using raw HID commands. On Fedora and many other distros, standard users are blocked from accessing `/dev/hidraw*` devices for security reasons.
+
+*   **For Strategy 1 Users:** Your controller identifies as a **Nintendo Switch Pro Controller** (ID `057e:2009`). Chrome *requires* access to handshake with this specific device. Use the rule below as written.
+*   **For Other Controllers:** If your controller is detected as something else but still doesn't work in the browser, you can adapt the rule below using your own device ID.
 
 ### The Fix: Create a Udev Rule
-We need to grant your user account permission to access the Switch Pro Controller's raw interface.
+We need to grant your user account permission to access the controller's raw interface.
 
-1.  Create the rule file:
+1.  **Find your Controller ID (Optional for Strategy 1):**
+    If you are NOT using Strategy 1, run `lsusb` in a terminal and look for your controller (e.g., `ID 054c:0ce6`). The first part is `idVendor`, the second is `idProduct`.
+
+2.  Create the rule file:
     ```bash
-    sudo nano /etc/udev/rules.d/50-nintendo-switch.rules
+    sudo nano /etc/udev/rules.d/50-controller-perms.rules
     ```
 
-2.  Paste the following content:
+3.  Paste the following content:
     ```udev
-    # Access for Nintendo Switch Pro Controller (Cosmic Byte Blitz in Switch Mode)
+    # Access for Nintendo Switch Pro Controller (Strategy 1 / Cosmic Byte Blitz)
     KERNEL=="hidraw*", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="2009", MODE="0666"
+
+    # Access for Generic/Other Controllers (Uncomment and replace IDs if needed)
+    # KERNEL=="hidraw*", ATTRS{idVendor}=="YOUR_VENDOR_ID", ATTRS{idProduct}=="YOUR_PRODUCT_ID", MODE="0666"
     ```
 
-3.  Save and exit (Ctrl+O, Enter, Ctrl+X).
+4.  Save and exit (Ctrl+O, Enter, Ctrl+X).
 
-4.  Apply the rule and reconnect:
+5.  Apply the rule and reconnect:
     ```bash
     sudo udevadm control --reload-rules && sudo udevadm trigger
     ```

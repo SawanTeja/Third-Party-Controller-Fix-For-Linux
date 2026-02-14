@@ -97,14 +97,14 @@ Alternatively, if you are only using Steam, you can enable "Nintendo Switch Supp
 
 **Cause:** Modern browsers (like Chrome) attempt to initialize gamepads using raw HID commands. On Fedora and many other distros, standard users are blocked from accessing `/dev/hidraw*` devices for security reasons.
 
-*   **For Strategy 1 Users:** Your controller identifies as a **Nintendo Switch Pro Controller** (ID `057e:2009`). Chrome *requires* access to handshake with this specific device. Use the rule below as written.
+*   **For Users using this method:** Your controller identifies as a **Nintendo Switch Pro Controller** (ID `057e:2009`). Chrome *requires* access to handshake with this specific device. Use the rule below as written.
 *   **For Other Controllers:** If your controller is detected as something else but still doesn't work in the browser, you can adapt the rule below using your own device ID.
 
 ### The Fix: Create a Udev Rule
 We need to grant your user account permission to access the controller's raw interface.
 
 1.  **Find your Controller ID (Optional for Strategy 1):**
-    If you are NOT using Strategy 1, run `lsusb` in a terminal and look for your controller (e.g., `ID 054c:0ce6`). The first part is `idVendor`, the second is `idProduct`.
+    If you are NOT using this method, run `lsusb` in a terminal and look for your controller (e.g., `ID 054c:0ce6`). The first part is `idVendor`, the second is `idProduct`.
 
 2.  Create the rule file:
     ```bash
